@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaAddressCard, FaEnvelope, FaFacebook, FaHome, FaInfoCircle, FaPhone, FaTicketAlt } from 'react-icons/fa';
 import { SiStripe } from 'react-icons/si';
+import Logo from '../../../components/Logo/Logo';
 
 const Footer = () => {
     return (
@@ -12,12 +13,7 @@ const Footer = () => {
 
                         {/* Column 1: Logo + Description */}
                         <div className="space-y-4">
-                            <div className="flex items-center space-x-2">
-                                <div className="bg-linear-to-r from-amber-500 to-orange-500 text-white p-2 rounded-lg">
-                                    <span className="text-xl font-bold">TB</span>
-                                </div>
-                                <span className="text-xl font-bold text-white">TicketBari</span>
-                            </div>
+                            <Logo></Logo>
                             <p className="text-gray-300">
                                 Book bus, train, launch & flight tickets easily
                             </p>
