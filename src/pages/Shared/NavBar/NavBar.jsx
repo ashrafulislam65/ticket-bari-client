@@ -77,6 +77,8 @@ const NavBar = () => {
                         user?<a onClick={handleLogOut} className="btn">Log Out</a>:
                         <Link className='btn' to='/login'>Login</Link>
                     }
+                    <Link className='btn btn-neutral mx-4' 
+                    to='/beAVendor'>Be a vendor</Link>
                 </div>
             </div>
 
