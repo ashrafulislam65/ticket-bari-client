@@ -78,7 +78,7 @@ const NavBar = () => {
                         <Link className='btn' to='/login'>Login</Link>
                     }
                     <Link className='btn btn-neutral mx-4' 
-                    to='/beAVendor'>Be a vendor</Link>
+                    to='/vendor'>Be a vendor</Link>
                 </div>
             </div>
 

@@ -5,6 +5,8 @@ import ErrorPage from "../components/ErrorPage/Errorpage";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
+import PrivateRoute from "./PrivateRoute";
+import Vendor from "../pages/Vendor/Vendor";
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +16,10 @@ export const router = createBrowserRouter([
         {
             index: true,
             Component:Home,
+        },
+        {
+          path: 'vendor',
+          element:<PrivateRoute><Vendor></Vendor></PrivateRoute>
         }
     ]
   },
