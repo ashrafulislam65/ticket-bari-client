@@ -8,6 +8,7 @@ import Register from "../pages/Auth/Register/Register";
 import PrivateRoute from "./PrivateRoute";
 import Vendor from "../pages/Vendor/Vendor";
 import BookTicket from "../pages/BookTicket/BookTicket";
+import AllTickets from "../pages/AllTickets/AllTickets";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,11 @@ export const router = createBrowserRouter([
         {
             index: true,
             Component:Home,
+        },
+        {
+           path:'all-tickets',
+           element:<PrivateRoute><AllTickets></AllTickets></PrivateRoute>
+
         },
         {
           path: 'vendor',
