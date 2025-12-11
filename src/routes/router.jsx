@@ -10,6 +10,8 @@ import Vendor from "../pages/Vendor/Vendor";
 import BookTicket from "../pages/BookTicket/BookTicket";
 import AllTickets from "../pages/AllTickets/AllTickets";
 import TicketDetails from "../pages/TicketDetails/TicketDetails";
+import DashboardLayout from "../layouts/DashboardLayout";
+import MyBookedTickets from "../pages/Dashboard/MyBookedTickets/MyBookedTickets";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +40,17 @@ export const router = createBrowserRouter([
           element:<PrivateRoute><BookTicket></BookTicket></PrivateRoute>
         }
     ]
+  },
+  {  
+     path:'dashboard',
+     element:<PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+     children:[
+         {
+            path:'my-booked-tickets',
+            Component:MyBookedTickets,
+         }
+     ]
+
   },
   {
     path:'/',

@@ -17,9 +17,16 @@ const NavBar = () => {
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/book-ticket'>Book Ticket</NavLink></li>
         <li><NavLink to='/all-tickets'>All Tickets</NavLink></li>
-        <li><NavLink to='/dashboard'>Dashboard</NavLink></li>
         <li><NavLink>Home</NavLink></li>
         <li><NavLink>Home</NavLink></li>
+
+        {
+            user && <>
+                <li><NavLink to='/dashboard/my-booked-tickets'>My Booked Tickets</NavLink></li>
+            
+            
+            </>
+        }
         
 
 

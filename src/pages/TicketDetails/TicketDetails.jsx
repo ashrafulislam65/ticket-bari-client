@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useParams } from "react-router";
+import useAuth from "../../hooks/useAuth";
 
 const TicketDetails = () => {
     const { id } = useParams();
@@ -13,6 +14,7 @@ const TicketDetails = () => {
     const [openModal, setOpenModal] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const axiosSecure = useAxiosSecure();
+    const {user} = useAuth();
 
     // Fetch ticket details
     useEffect(() => {
@@ -66,6 +68,7 @@ const TicketDetails = () => {
             await axiosSecure.post("/bookings", {
                 ticketId: ticket._id,
                 quantity,
+                userEmail: user?.email,
                 status: "Pending",
             });
 
