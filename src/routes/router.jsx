@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute";
 import Vendor from "../pages/Vendor/Vendor";
 import BookTicket from "../pages/BookTicket/BookTicket";
 import AllTickets from "../pages/AllTickets/AllTickets";
+import TicketDetails from "../pages/TicketDetails/TicketDetails";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
            path:'all-tickets',
            element:<PrivateRoute><AllTickets></AllTickets></PrivateRoute>
 
+        },
+        {
+          path:'ticket/:id',
+          element:<PrivateRoute><TicketDetails></TicketDetails></PrivateRoute>
         },
         {
           path: 'vendor',
