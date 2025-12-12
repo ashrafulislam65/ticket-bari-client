@@ -1,21 +1,22 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 
 const ManageUsers = () => {
     const axiosSecure = useAxiosSecure();
+    const queryClient = useQueryClient();
 
     // Load all users (Admin only)
-    const { data: users = [], isLoading: loadingUsers, refetch } = useQuery({
+    const { data: users = [], isLoading: loadingUsers } = useQuery({
         queryKey: ["allUsers"],
         queryFn: async () => {
             const res = await axiosSecure.get("/users");
-            return res.data.data;  
+            return res.data.data;
         }
     });
 
     // Load pending vendor requests
-    const { data: pendingVendors = [], isLoading: loadingVendors, refetch: refetchVendors } = useQuery({
+    const { data: pendingVendors = [], isLoading: loadingVendors } = useQuery({
         queryKey: ["pendingVendors"],
         queryFn: async () => {
             const res = await axiosSecure.get("/vendor-request");
@@ -31,11 +32,16 @@ const ManageUsers = () => {
             showCancelButton: true
         });
 
-        if (confirm.isConfirmed) {
-            await axiosSecure.patch(`/users/role/${id}`, { role: newRole });
-            Swal.fire("Success", "Role updated successfully", "success");
-            refetch();
-        }
+        if (!confirm.isConfirmed) return;
+
+        await axiosSecure.patch(`/users/role/${id}`, { role: newRole });
+
+        Swal.fire("Success", "Role updated successfully", "success");
+
+        // Update users locally
+        queryClient.setQueryData(["allUsers"], (old = []) =>
+            old.map(u => (u._id === id ? { ...u, role: newRole } : u))
+        );
     };
 
     // Mark Vendor as FRAUD
@@ -47,12 +53,19 @@ const ManageUsers = () => {
             showCancelButton: true
         });
 
-        if (confirm.isConfirmed) {
-            await axiosSecure.patch(`/users/mark-fraud/${email}`);
-            Swal.fire("Marked as Fraud", "Vendor disabled", "error");
+        if (!confirm.isConfirmed) return;
 
-            refetch();
-        }
+        await axiosSecure.patch(`/users/mark-fraud/${email}`);
+
+        Swal.fire("Marked as Fraud", "Vendor disabled", "error");
+
+        // Remove vendor from users & pending vendors locally
+        queryClient.setQueryData(["allUsers"], (old = []) =>
+            old.map(u => (u.email === email ? { ...u, role: "fraud" } : u))
+        );
+        queryClient.setQueryData(["pendingVendors"], (old = []) =>
+            old.filter(v => v.email !== email)
+        );
     };
 
     // Approve Vendor Request
@@ -64,18 +77,24 @@ const ManageUsers = () => {
             showCancelButton: true
         });
 
-        if (confirm.isConfirmed) {
-            // 1️⃣ User role -> vendor
-            await axiosSecure.patch(`/users/role/${request.userId}`, { role: "vendor" });
+        if (!confirm.isConfirmed) return;
 
-            // 2️⃣ Update request status
-            await axiosSecure.patch(`/vendor-request/approve/${request._id}`);
+        // Update user role using email
+        await axiosSecure.patch(`/users/make-vendor/${request.email}`);
 
-            Swal.fire("Approved", "Vendor request approved", "success");
+        // Update request status
+        await axiosSecure.patch(`/vendor-request/approve/${request._id}`);
 
-            refetch();
-            refetchVendors();
-        }
+        Swal.fire("Approved", "Vendor request approved", "success");
+
+        // Update users & pendingVendors locally
+        queryClient.setQueryData(["allUsers"], (old = []) => [
+            ...old,
+            { ...request, role: "vendor" }
+        ]);
+        queryClient.setQueryData(["pendingVendors"], (old = []) =>
+            old.filter(v => v._id !== request._id)
+        );
     };
 
     // Reject Vendor Request
@@ -86,11 +105,16 @@ const ManageUsers = () => {
             showCancelButton: true
         });
 
-        if (confirm.isConfirmed) {
-            await axiosSecure.patch(`/vendor-request/reject/${id}`);
-            Swal.fire("Rejected", "Vendor request rejected", "info");
-            refetchVendors();
-        }
+        if (!confirm.isConfirmed) return;
+
+        await axiosSecure.patch(`/vendor-request/reject/${id}`);
+
+        Swal.fire("Rejected", "Vendor request rejected", "info");
+
+        // Remove request locally
+        queryClient.setQueryData(["pendingVendors"], (old = []) =>
+            old.filter(v => v._id !== id)
+        );
     };
 
     if (loadingUsers || loadingVendors) return <p className="text-center p-10">Loading...</p>;
@@ -102,7 +126,6 @@ const ManageUsers = () => {
             {/* ---------- USERS TABLE ---------- */}
             <div>
                 <h2 className="text-2xl font-semibold mb-4">All Users</h2>
-
                 <div className="overflow-x-auto">
                     <table className="table w-full border">
                         <thead className="bg-gray-200">
@@ -114,14 +137,12 @@ const ManageUsers = () => {
                                 <th>Actions</th>
                             </tr>
                         </thead>
-
                         <tbody>
                             {users.map((u, i) => (
                                 <tr key={u._id}>
                                     <td>{i + 1}</td>
                                     <td>{u.name}</td>
                                     <td>{u.email}</td>
-
                                     <td>
                                         <span
                                             className={`px-3 py-1 rounded text-white ${
@@ -137,7 +158,6 @@ const ManageUsers = () => {
                                             {u.role}
                                         </span>
                                     </td>
-
                                     <td className="space-x-2">
                                         <button
                                             onClick={() => handleRoleChange(u._id, "admin")}
@@ -145,21 +165,18 @@ const ManageUsers = () => {
                                         >
                                             Make Admin
                                         </button>
-
                                         <button
                                             onClick={() => handleRoleChange(u._id, "vendor")}
                                             className="btn btn-xs btn-success"
                                         >
                                             Make Vendor
                                         </button>
-
                                         <button
                                             onClick={() => handleRoleChange(u._id, "user")}
                                             className="btn btn-xs btn-info"
                                         >
                                             Make User
                                         </button>
-
                                         {u.role === "vendor" && (
                                             <button
                                                 onClick={() => markAsFraud(u.email)}
@@ -172,7 +189,6 @@ const ManageUsers = () => {
                                 </tr>
                             ))}
                         </tbody>
-
                     </table>
                 </div>
             </div>
@@ -180,7 +196,6 @@ const ManageUsers = () => {
             {/* ---------- PENDING VENDORS ---------- */}
             <div>
                 <h2 className="text-2xl font-semibold mb-4">Pending Vendor Requests</h2>
-
                 <div className="overflow-x-auto">
                     <table className="table w-full border">
                         <thead className="bg-gray-200">
@@ -192,7 +207,6 @@ const ManageUsers = () => {
                                 <th>Actions</th>
                             </tr>
                         </thead>
-
                         <tbody>
                             {pendingVendors.map((v, i) => (
                                 <tr key={v._id}>
@@ -200,7 +214,6 @@ const ManageUsers = () => {
                                     <td>{v.name}</td>
                                     <td>{v.email}</td>
                                     <td>{v.businessName}</td>
-
                                     <td className="space-x-2">
                                         <button
                                             onClick={() => approveVendor(v)}
@@ -208,7 +221,6 @@ const ManageUsers = () => {
                                         >
                                             Approve
                                         </button>
-
                                         <button
                                             onClick={() => rejectVendor(v._id)}
                                             className="btn btn-xs btn-error"
@@ -219,7 +231,6 @@ const ManageUsers = () => {
                                 </tr>
                             ))}
                         </tbody>
-
                     </table>
                 </div>
             </div>
