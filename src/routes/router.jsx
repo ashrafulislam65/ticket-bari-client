@@ -17,6 +17,7 @@ import MyAddedTickets from "../pages/Vendor/MyAddedTickets";
 import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancelled from "../pages/Dashboard/Payment/PaymentCancelled";
+import TransactionHistory from "../pages/Dashboard/TransactionHistory/TransactionHistory";
 
 export const router = createBrowserRouter([
   {
@@ -36,7 +37,7 @@ export const router = createBrowserRouter([
         path: 'ticket/:id',
         element: <PrivateRoute><TicketDetails></TicketDetails></PrivateRoute>
       },
-     
+
       {
         path: 'book-ticket',
         element: <PrivateRoute><BookTicket></BookTicket></PrivateRoute>
@@ -52,19 +53,23 @@ export const router = createBrowserRouter([
         Component: MyBookedTickets,
       },
       {
-         path: 'payment/:ticketId',
-         Component:Payment,
+        path: 'payment/:ticketId',
+        Component: Payment,
 
       },
       {
-        path:'payment-success',
-        Component:PaymentSuccess,
+        path: 'payment-success',
+        Component: PaymentSuccess,
 
       },
       {
         path: 'payment-cancelled',
         Component: PaymentCancelled,
 
+      },
+      {
+        path: "transactions",
+        Component: TransactionHistory
       },
       {
         path: "add-ticket",
