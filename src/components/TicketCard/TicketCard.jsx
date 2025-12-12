@@ -1,5 +1,6 @@
 import React from "react";
 import useCountdown from "../../hooks/useCountDown";
+import { Link } from "react-router";
 
 const TicketCard = ({ ticket }) => {
     const {
@@ -70,15 +71,14 @@ const TicketCard = ({ ticket }) => {
                 <p>
                     <strong>Status:</strong>
                     <span
-                        className={`ml-2 px-2 py-1 rounded text-white ${
-                            status === "pending"
+                        className={`ml-2 px-2 py-1 rounded text-white ${status === "pending"
                                 ? "bg-yellow-600"
                                 : status === "accepted"
-                                ? "bg-green-600"
-                                : status === "paid"
-                                ? "bg-blue-600"
-                                : "bg-red-600"
-                        }`}
+                                    ? "bg-green-600"
+                                    : status === "paid"
+                                        ? "bg-blue-600"
+                                        : "bg-red-600"
+                            }`}
                     >
                         {status}
                     </span>
@@ -93,12 +93,14 @@ const TicketCard = ({ ticket }) => {
 
                 {/* Pay button only if not expired */}
                 {status === "accepted" && !isExpired && isValid && (
-                    <button
-                        className="btn btn-primary mt-3 w-full"
-                        onClick={handlePayment}
-                    >
-                        Pay Now
-                    </button>
+                    <Link to={`/dashboard/payment/${ticket._id}`}>
+                        <button
+                            className="btn btn-primary mt-3 w-full"
+                            onClick={handlePayment}
+                        >
+                            Pay Now
+                        </button>
+                    </Link>
                 )}
 
                 {/* Expired */}

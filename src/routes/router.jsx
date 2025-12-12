@@ -14,6 +14,9 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import MyBookedTickets from "../pages/Dashboard/MyBookedTickets/MyBookedTickets";
 import AddTicket from "../pages/Vendor/AddTicket";
 import MyAddedTickets from "../pages/Vendor/MyAddedTickets";
+import Payment from "../pages/Dashboard/Payment/Payment";
+import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
+import PaymentCancelled from "../pages/Dashboard/Payment/PaymentCancelled";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +50,21 @@ export const router = createBrowserRouter([
       {
         path: 'my-booked-tickets',
         Component: MyBookedTickets,
+      },
+      {
+         path: 'payment/:ticketId',
+         Component:Payment,
+
+      },
+      {
+        path:'payment-success',
+        Component:PaymentSuccess,
+
+      },
+      {
+        path: 'payment-cancelled',
+        Component: PaymentCancelled,
+
       },
       {
         path: "add-ticket",
