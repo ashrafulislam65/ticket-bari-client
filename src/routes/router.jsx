@@ -19,6 +19,7 @@ import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancelled from "../pages/Dashboard/Payment/PaymentCancelled";
 import TransactionHistory from "../pages/Dashboard/TransactionHistory/TransactionHistory";
 import Vendor from "../pages/Vendor/Vendor";
+import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
 
 export const router = createBrowserRouter([
   {
@@ -75,6 +76,10 @@ export const router = createBrowserRouter([
       {
         path: "transactions",
         Component: TransactionHistory
+      },
+      {
+        path: "manage-users",
+        Component:ManageUsers,
       },
       {
         path: "add-ticket",

@@ -1,6 +1,7 @@
 import React from 'react';
 import { AiOutlineTransaction } from 'react-icons/ai';
 import { IoTicket } from 'react-icons/io5';
+import { MdManageAccounts } from 'react-icons/md';
 import { Link, NavLink, Outlet } from 'react-router';
 
 const DashboardLayout = () => {
@@ -44,6 +45,11 @@ const DashboardLayout = () => {
                             <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="myBookedTickets" to="/dashboard/transactions">
                                 <AiOutlineTransaction />
                                 <span className="is-drawer-close:hidden">Transaction History</span></NavLink>
+                        </li>
+                        <li>
+                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Users" to="/dashboard/manage-users">
+                                <MdManageAccounts />
+                                <span className="is-drawer-close:hidden">Manage Users</span></NavLink>
                         </li>
                         
 
