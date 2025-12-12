@@ -18,6 +18,7 @@ import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancelled from "../pages/Dashboard/Payment/PaymentCancelled";
 import TransactionHistory from "../pages/Dashboard/TransactionHistory/TransactionHistory";
+import Vendor from "../pages/Vendor/Vendor";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
         path: 'all-tickets',
         element: <PrivateRoute><AllTickets></AllTickets></PrivateRoute>
 
+      },
+      {
+        path:'vendor',
+        element:<PrivateRoute><Vendor></Vendor></PrivateRoute>
       },
       {
         path: 'ticket/:id',
