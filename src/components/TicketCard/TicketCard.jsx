@@ -59,9 +59,9 @@ const TicketCard = ({ ticket }) => {
                 <p><strong>From:</strong> {from}</p>
                 <p><strong>To:</strong> {to}</p>
 
-                <p><strong>Unit Price:</strong> {price} Tk</p>
+                <p><strong>Unit Price:</strong> {price} $</p>
                 <p><strong>Booked Quantity:</strong> {quantity}</p>
-                <p><strong>Total Price:</strong> {totalPrice} Tk</p>
+                <p><strong>Total Price:</strong> {totalPrice} $</p>
 
                 <p>
                     <strong>Departure:</strong>{" "}

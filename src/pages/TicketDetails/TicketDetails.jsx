@@ -94,7 +94,7 @@ const TicketDetails = () => {
 
                 <p className="mt-2">🚖 Transport: <b>{ticket.transportType}</b></p>
 
-                <p>💰 Price: <b>{ticket.price} Tk</b></p>
+                <p>💰 Price: <b>{ticket.price} $</b></p>
                 <p>🎟 Available Tickets: <b>{ticket.quantity}</b></p>
 
                 <p className="text-primary font-bold text-xl mt-4">

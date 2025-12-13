@@ -4,6 +4,7 @@ import { IoTicket } from 'react-icons/io5';
 import { MdManageAccounts } from 'react-icons/md';
 import { Link, NavLink, Outlet } from 'react-router';
 import useRole from '../hooks/useRole';
+import { RiAdvertisementFill } from 'react-icons/ri';
 
 const DashboardLayout = () => {
     const { role } = useRole();
@@ -65,6 +66,11 @@ const DashboardLayout = () => {
                                     <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Tickets" to="/dashboard/manage-tickets">
                                         <MdManageAccounts />
                                         <span className="is-drawer-close:hidden">Manage Tickets</span></NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Tickets" to="/dashboard/advertise-tickets">
+                                        <RiAdvertisementFill/>
+                                        <span className="is-drawer-close:hidden">Advertise Tickets</span></NavLink>
                                 </li>
                             </>
                         }
