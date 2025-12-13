@@ -25,6 +25,7 @@ import AdminRoute from "./AdminRoute";
 import AdminManageTickets from "../pages/Dashboard/AdminManageTickets.jsx/AdminManageTickets";
 import VendorMyTickets from "../pages/Vendor/VendorMyTickets";
 import AdminAdvertiseTickets from "../pages/Dashboard/AdminAdvertiseTickets/AdminAdvertiseTickets";
+import RevenueOverview from "../pages/Vendor/RevenueOverview";
 
 
 export const router = createBrowserRouter([
@@ -105,6 +106,12 @@ export const router = createBrowserRouter([
       {
         path: 'vendor-tickets',
         element:<VendorMyTickets></VendorMyTickets>
+
+
+      },
+      { 
+        path: 'revenue-overview',
+        element: <RevenueOverview></RevenueOverview>
 
       },
       {

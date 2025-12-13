@@ -1,5 +1,6 @@
 import React from 'react';
 import { AiOutlineTransaction } from 'react-icons/ai';
+import { GrMoney } from "react-icons/gr";
 import { IoTicket } from 'react-icons/io5';
 import { MdManageAccounts } from 'react-icons/md';
 import { Link, NavLink, Outlet } from 'react-router';
@@ -51,6 +52,12 @@ const DashboardLayout = () => {
                                 <span className="is-drawer-close:hidden">Vendors Tickets</span></NavLink>
                         </li>
                         <li>
+                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Revenue Overview" to="/dashboard/revenue-overview">
+                                <GrMoney/>
+                                <span className="is-drawer-close:hidden">Revenue Overview</span></NavLink>
+                        </li>
+                        <li>
+
                             <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History" to="/dashboard/transactions">
                                 <AiOutlineTransaction />
                                 <span className="is-drawer-close:hidden">Transaction History</span></NavLink>
