@@ -45,6 +45,11 @@ const DashboardLayout = () => {
                                 <span className="is-drawer-close:hidden">My Booked Tickets</span></NavLink>
                         </li>
                         <li>
+                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Vendor Tickets" to="/dashboard/Vendor-tickets">
+                                <IoTicket />
+                                <span className="is-drawer-close:hidden">Vendors Tickets</span></NavLink>
+                        </li>
+                        <li>
                             <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History" to="/dashboard/transactions">
                                 <AiOutlineTransaction />
                                 <span className="is-drawer-close:hidden">Transaction History</span></NavLink>
@@ -55,6 +60,11 @@ const DashboardLayout = () => {
                                     <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Users" to="/dashboard/manage-users">
                                         <MdManageAccounts />
                                         <span className="is-drawer-close:hidden">Manage Users</span></NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Tickets" to="/dashboard/manage-tickets">
+                                        <MdManageAccounts />
+                                        <span className="is-drawer-close:hidden">Manage Tickets</span></NavLink>
                                 </li>
                             </>
                         }

@@ -22,6 +22,8 @@ import Vendor from "../pages/Vendor/Vendor";
 import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
 import RequestedBookings from "../pages/Vendor/RequestedBookings";
 import AdminRoute from "./AdminRoute";
+import AdminManageTickets from "../pages/Dashboard/AdminManageTickets.jsx/AdminManageTickets";
+import VendorMyTickets from "../pages/Vendor/VendorMyTickets";
 
 
 export const router = createBrowserRouter([
@@ -85,10 +87,19 @@ export const router = createBrowserRouter([
         element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
       },
       {
+        path: 'manage-tickets',
+        element: <AdminRoute><AdminManageTickets></AdminManageTickets></AdminRoute>
+      },
+      {
         path: "add-ticket",
         element: (
           <AddTicket></AddTicket>
         ),
+      },
+      {
+        path: 'vendor-tickets',
+        element:<VendorMyTickets></VendorMyTickets>
+
       },
       {
         path: 'requested-bookings',
