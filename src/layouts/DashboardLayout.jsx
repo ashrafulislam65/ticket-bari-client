@@ -3,8 +3,11 @@ import { AiOutlineTransaction } from 'react-icons/ai';
 import { IoTicket } from 'react-icons/io5';
 import { MdManageAccounts } from 'react-icons/md';
 import { Link, NavLink, Outlet } from 'react-router';
+import useRole from '../hooks/useRole';
 
 const DashboardLayout = () => {
+    const { role } = useRole();
+   
     return (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -42,16 +45,20 @@ const DashboardLayout = () => {
                                 <span className="is-drawer-close:hidden">My Booked Tickets</span></NavLink>
                         </li>
                         <li>
-                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="myBookedTickets" to="/dashboard/transactions">
+                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History" to="/dashboard/transactions">
                                 <AiOutlineTransaction />
                                 <span className="is-drawer-close:hidden">Transaction History</span></NavLink>
                         </li>
-                        <li>
-                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Users" to="/dashboard/manage-users">
-                                <MdManageAccounts />
-                                <span className="is-drawer-close:hidden">Manage Users</span></NavLink>
-                        </li>
-                        
+                        {
+                            role === 'admin' && <>
+                                <li>
+                                    <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Users" to="/dashboard/manage-users">
+                                        <MdManageAccounts />
+                                        <span className="is-drawer-close:hidden">Manage Users</span></NavLink>
+                                </li>
+                            </>
+                        }
+
 
 
                         {/* List item */}

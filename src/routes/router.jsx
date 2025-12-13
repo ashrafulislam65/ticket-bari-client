@@ -13,13 +13,16 @@ import TicketDetails from "../pages/TicketDetails/TicketDetails";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyBookedTickets from "../pages/Dashboard/MyBookedTickets/MyBookedTickets";
 import AddTicket from "../pages/Vendor/AddTicket";
-import MyAddedTickets from "../pages/Vendor/MyAddedTickets";
+
 import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancelled from "../pages/Dashboard/Payment/PaymentCancelled";
 import TransactionHistory from "../pages/Dashboard/TransactionHistory/TransactionHistory";
 import Vendor from "../pages/Vendor/Vendor";
 import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
+import RequestedBookings from "../pages/Vendor/RequestedBookings";
+import AdminRoute from "./AdminRoute";
+
 
 export const router = createBrowserRouter([
   {
@@ -79,7 +82,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "manage-users",
-        Component:ManageUsers,
+        element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
       },
       {
         path: "add-ticket",
@@ -88,8 +91,8 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'my-added-tickets',
-        element: <MyAddedTickets></MyAddedTickets>,
+        path: 'requested-bookings',
+        element: <RequestedBookings></RequestedBookings>,
       }
     ]
 

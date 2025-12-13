@@ -19,7 +19,7 @@ const NavBar = () => {
         <li><NavLink to='/vendor'>Be a Vendor</NavLink></li>
         <li><NavLink to='/all-tickets'>All Tickets</NavLink></li>
         <li><NavLink to='/dashboard/add-ticket'>Add Ticket</NavLink></li>
-        <li><NavLink to='/dashboard/my-added-tickets'>My-added-tickets</NavLink></li>
+        <li><NavLink to='/dashboard/requested-bookings'>	Requested Bookings</NavLink></li>
 
         
        

@@ -4,7 +4,7 @@ import useAuth from '../../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 
-const MyAddedTickets = () => {
+const RequestedBookings = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
 
@@ -90,4 +90,4 @@ const MyAddedTickets = () => {
     );
 };
 
-export default MyAddedTickets;
+export default RequestedBookings;
