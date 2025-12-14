@@ -2,6 +2,8 @@ import React from 'react';
 import { AiOutlineTransaction } from 'react-icons/ai';
 import { GrMoney } from "react-icons/gr";
 import { IoTicket } from 'react-icons/io5';
+import { VscGitPullRequestGoToChanges } from "react-icons/vsc";
+import { LuTicketPlus } from "react-icons/lu";
 import { MdManageAccounts } from 'react-icons/md';
 import { Link, NavLink, Outlet } from 'react-router';
 import useRole from '../hooks/useRole';
@@ -9,7 +11,7 @@ import { RiAdvertisementFill } from 'react-icons/ri';
 
 const DashboardLayout = () => {
     const { role } = useRole();
-   
+
     return (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -41,27 +43,72 @@ const DashboardLayout = () => {
                             </Link>
                         </li>
                         {/* our dashboard links */}
-                        <li>
-                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="myBookedTickets" to="/dashboard/my-booked-Tickets">
-                                <IoTicket />
-                                <span className="is-drawer-close:hidden">My Booked Tickets</span></NavLink>
-                        </li>
-                        <li>
-                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Vendor Tickets" to="/dashboard/Vendor-tickets">
-                                <IoTicket />
-                                <span className="is-drawer-close:hidden">Vendors Tickets</span></NavLink>
-                        </li>
-                        <li>
-                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Revenue Overview" to="/dashboard/revenue-overview">
-                                <GrMoney/>
-                                <span className="is-drawer-close:hidden">Revenue Overview</span></NavLink>
-                        </li>
-                        <li>
+                        {
+                            role === 'user' && <>
+                                <li>
+                                    <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="myBookedTickets" to="/dashboard/my-booked-Tickets">
+                                        <IoTicket />
+                                        <span className="is-drawer-close:hidden">My Booked Tickets</span></NavLink>
+                                </li>
 
-                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History" to="/dashboard/transactions">
-                                <AiOutlineTransaction />
-                                <span className="is-drawer-close:hidden">Transaction History</span></NavLink>
-                        </li>
+
+                                <li>
+
+                                    <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History" to="/dashboard/transactions">
+                                        <AiOutlineTransaction />
+                                        <span className="is-drawer-close:hidden">Transaction History</span></NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                                        data-tip="Profile"
+                                        to="/dashboard/profile"
+                                    >
+                                        <MdManageAccounts />
+                                        <span className="is-drawer-close:hidden">My Profile</span>
+                                    </NavLink>
+                                </li>
+
+                            </>
+                        }
+                        {/* Vendor only links */}
+                        {
+                            role === 'vendor' && <>
+                                <li>
+                                    <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Ticket" to="/dashboard/add-ticket">
+                                        <LuTicketPlus />
+                                        <span className="is-drawer-close:hidden">Add Tickets</span></NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Requested Bookings" to="/dashboard/requested-bookings">
+                                        <VscGitPullRequestGoToChanges />
+                                        <span className="is-drawer-close:hidden">Requested Bookings</span></NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Vendor Tickets" to="/dashboard/Vendor-tickets">
+                                        <IoTicket />
+                                        <span className="is-drawer-close:hidden">My Added Tickets</span></NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Revenue Overview" to="/dashboard/revenue-overview">
+                                        <GrMoney />
+                                        <span className="is-drawer-close:hidden">Revenue Overview</span></NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                                        data-tip="Vendor Profile"
+                                        to="/dashboard/vendor-profile"
+                                    >
+                                        <MdManageAccounts />
+                                        <span className="is-drawer-close:hidden">Vendor Profile</span>
+                                    </NavLink>
+                                </li>
+
+
+                            </>
+                        }
+                        {/* Admin only links */}
                         {
                             role === 'admin' && <>
                                 <li>
@@ -76,9 +123,20 @@ const DashboardLayout = () => {
                                 </li>
                                 <li>
                                     <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Tickets" to="/dashboard/advertise-tickets">
-                                        <RiAdvertisementFill/>
+                                        <RiAdvertisementFill />
                                         <span className="is-drawer-close:hidden">Advertise Tickets</span></NavLink>
                                 </li>
+                                <li>
+                                    <NavLink
+                                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                                        data-tip="Admin Profile"
+                                        to="/dashboard/admin-profile"
+                                    >
+                                        <MdManageAccounts />
+                                        <span className="is-drawer-close:hidden">Admin Profile</span>
+                                    </NavLink>
+                                </li>
+
                             </>
                         }
 

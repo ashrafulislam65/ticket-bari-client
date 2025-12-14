@@ -26,6 +26,10 @@ import AdminManageTickets from "../pages/Dashboard/AdminManageTickets.jsx/AdminM
 import VendorMyTickets from "../pages/Vendor/VendorMyTickets";
 import AdminAdvertiseTickets from "../pages/Dashboard/AdminAdvertiseTickets/AdminAdvertiseTickets";
 import RevenueOverview from "../pages/Vendor/RevenueOverview";
+import VendorRoute from "./VendorRoute";
+import UserProfile from "../pages/Dashboard/UserProfile";
+import VendorProfile from "../pages/Vendor/VendorProfile";
+import AdminProfile from "../pages/Dashboard/AdminProfile";
 
 
 export const router = createBrowserRouter([
@@ -66,6 +70,10 @@ export const router = createBrowserRouter([
         Component: MyBookedTickets,
       },
       {
+         path: 'profile',
+         Component: UserProfile,
+      },
+      {
         path: 'payment/:ticketId',
         Component: Payment,
 
@@ -98,25 +106,34 @@ export const router = createBrowserRouter([
 
       },
       {
+        path: 'admin-profile',
+        element: <AdminRoute><AdminProfile></AdminProfile></AdminRoute>
+      },
+      
+      {
         path: "add-ticket",
-        element: (
-          <AddTicket></AddTicket>
-        ),
+        element: <VendorRoute><AddTicket></AddTicket></VendorRoute>
+        ,
       },
       {
         path: 'vendor-tickets',
-        element:<VendorMyTickets></VendorMyTickets>
+        element:<VendorRoute><VendorMyTickets></VendorMyTickets></VendorRoute>
 
 
       },
       { 
         path: 'revenue-overview',
-        element: <RevenueOverview></RevenueOverview>
+        element: <VendorRoute><RevenueOverview></RevenueOverview></VendorRoute>
 
       },
       {
         path: 'requested-bookings',
-        element: <RequestedBookings></RequestedBookings>,
+        element: <VendorRoute><RequestedBookings></RequestedBookings></VendorRoute>,
+      },
+      { 
+          path: 'vendor-profile',
+          element: <VendorRoute><VendorProfile></VendorProfile></VendorRoute>
+
       }
     ]
 
