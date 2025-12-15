@@ -95,7 +95,7 @@ const TicketCard = ({ ticket }) => {
                 {status === "accepted" && !isExpired && isValid && (
                     <Link to={`/dashboard/payment/${ticket._id}`}>
                         <button
-                            className="btn btn-primary mt-3 w-full"
+                            className="btn btn-neutral mt-3 w-full"
                             onClick={handlePayment}
                         >
                             Pay Now

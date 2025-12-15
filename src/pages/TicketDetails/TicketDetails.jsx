@@ -1,153 +1,161 @@
-import React, { useEffect, useState } from "react";
 
-
-
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import { useParams } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
+import { useNavigate, useParams } from "react-router";
+import { useEffect, useState } from "react";
 
 const TicketDetails = () => {
-    const { id } = useParams();
-    const [ticket, setTicket] = useState(null);
-    const [timeLeft, setTimeLeft] = useState("");
-    const [openModal, setOpenModal] = useState(false);
-    const [quantity, setQuantity] = useState(1);
-    const axiosSecure = useAxiosSecure();
-    const {user} = useAuth();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
 
-    // Fetch ticket details
-    useEffect(() => {
-        axiosSecure
-            .get(`/tickets/${id}`)
-            .then((res) => {
-                console.log("Single Ticket API:", res.data);
-                setTicket(res.data.data); // FIXED
-            })
-            .catch((err) => console.error(err));
-    }, [axiosSecure, id]); // FIXED dependencies
+  const [ticket, setTicket] = useState(null);
+  const [timeLeft, setTimeLeft] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
-    // Countdown Timer
-    useEffect(() => {
-        if (!ticket) return;
+  // Fetch ticket
+  useEffect(() => {
+    axiosSecure.get(`/tickets/${id}`).then(res => {
+      setTicket(res.data.data);
+    });
+  }, [id, axiosSecure]);
 
-        const interval = setInterval(() => {
-            const target = new Date(`${ticket.departureDate} ${ticket.departureTime}`);
-            const now = new Date();
-            const diff = target - now;
+  // Countdown
+  useEffect(() => {
+    if (!ticket) return;
 
-            if (diff <= 0) {
-                setTimeLeft("Departure time passed");
-                clearInterval(interval);
-                return;
-            }
+    const interval = setInterval(() => {
+      const target = new Date(
+        `${ticket.departureDate}T${ticket.departureTime}:00`
+      );
+      const diff = target - new Date();
 
-            const hrs = Math.floor(diff / (1000 * 60 * 60));
-            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      if (diff <= 0) {
+        setTimeLeft("Departure time passed");
+        clearInterval(interval);
+        return;
+      }
 
-            setTimeLeft(`${hrs}h ${mins}m remaining`);
-        }, 1000);
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      setTimeLeft(`${h}h ${m}m remaining`);
+    }, 1000);
 
-        return () => clearInterval(interval);
-    }, [ticket]);
+    return () => clearInterval(interval);
+  }, [ticket]);
 
-    if (!ticket) return <p>Loading...</p>;
+  if (!ticket) return <p className="text-center mt-10">Loading...</p>;
 
-    const departurePassed = timeLeft === "Departure time passed";
-    const noTicketsLeft = ticket.quantity <= 0;
+  const handleBooking = async () => {
+    try {
+      await axiosSecure.post("/bookings", {
+        ticketId: ticket._id,
+        quantity,
+        userEmail: user?.email,
+      });
 
-    // Handle booking submit
-    const handleBooking = async () => {
-        if (quantity < 1)
-            return Swal.fire("Invalid Quantity", "Please enter a valid number.", "warning");
+      Swal.fire({
+        icon: "success",
+        title: "Booking Successful!",
+        text: "What do you want to do next?",
+        showCancelButton: true,
+        confirmButtonText: "Go Home",
+        cancelButtonText: "Continue Booking",
+      }).then(result => {
+        if (result.isConfirmed) navigate("/");
+        else setOpenModal(false);
+      });
 
-        if (quantity > ticket.quantity)
-            return Swal.fire("Not Enough Tickets", "Reduce quantity and try again.", "error");
+    } catch {
+      Swal.fire("Error", "Booking failed", "error");
+    }
+  };
 
-        try {
-            await axiosSecure.post("/bookings", {
-                ticketId: ticket._id,
-                quantity,
-                userEmail: user?.email,
-                status: "Pending",
-            });
+  return (
+    <div className="bg-base-200 min-h-screen p-6">
+      <button
+        className="btn btn-sm mb-4"
+        onClick={() => navigate("/")}
+      >
+        ⬅ Back to Home
+      </button>
 
-            Swal.fire("Success!", "Your ticket has been booked!", "success");
-            setOpenModal(false);
-        } catch (err) {
-            Swal.fire("Error", "Booking failed. Try again later.", "error");
-            console.error(err);
-        }
-    };
+      {/* Main Card */}
+      <div className="bg-base-100 rounded-xl shadow-lg p-6 grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
 
-    return (
-        <div className="min-h-screen bg-base-200 p-6 flex justify-center">
-            <div className="card bg-base-100 shadow-xl p-6 w-full max-w-2xl">
+        {/* Image */}
+        <img
+          src={ticket.image || "https://i.ibb.co/4g3ZQ8Q/bus-placeholder.jpg"}
+          onError={(e) =>
+            (e.target.src = "https://i.ibb.co/4g3ZQ8Q/bus-placeholder.jpg")
+          }
+          className="w-full h-60 object-cover rounded-lg"
+          alt="ticket"
+        />
 
-                <img src={ticket.image} className="rounded-lg mb-4" alt="ticket" />
+        {/* Info */}
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold">{ticket.title}</h2>
+          <p>📍 {ticket.from} → {ticket.to}</p>
+          <p>🚖 Transport: <b>{ticket.transport}</b></p>
+          <p>🗓 {ticket.departureDate} at {ticket.departureTime}</p>
+          <p>💰 Price: <b>${ticket.price}</b></p>
+          <p>🎟 Available: <b>{ticket.quantity}</b></p>
 
-                <h2 className="text-3xl font-bold">{ticket.title}</h2>
+          <p className="text-primary font-semibold mt-2">⏳ {timeLeft}</p>
 
-                <p className="text-gray-600 mt-2">
-                    📍 {ticket.from} → {ticket.to}
-                </p>
-
-                <p className="mt-2">🚖 Transport: <b>{ticket.transportType}</b></p>
-
-                <p>💰 Price: <b>{ticket.price} $</b></p>
-                <p>🎟 Available Tickets: <b>{ticket.quantity}</b></p>
-
-                <p className="text-primary font-bold text-xl mt-4">
-                    ⏳ {timeLeft}
-                </p>
-
-                <button
-                    className="btn btn-primary w-full mt-6"
-                    onClick={() => setOpenModal(true)}
-                    disabled={departurePassed || noTicketsLeft}
-                >
-                    Book Now
-                </button>
-
-                {/* Modal */}
-                {openModal && (
-                    <div className="modal modal-open bg-black/50">
-                        <div className="modal-box">
-
-                            <h3 className="text-xl font-bold mb-3">Book Ticket</h3>
-
-                            <label className="label">
-                                <span className="label-text">Enter Quantity</span>
-                            </label>
-
-                            <input
-                                type="number"
-                                min="1"
-                                max={ticket.quantity}
-                                value={quantity}
-                                onChange={(e) => setQuantity(Number(e.target.value))}
-                                className="input input-bordered w-full"
-                            />
-
-                            <p className="mt-2 text-sm text-gray-500">
-                                Available: {ticket.quantity}
-                            </p>
-
-                            <div className="modal-action">
-                                <button className="btn btn-primary" onClick={handleBooking}>
-                                    Confirm Booking
-                                </button>
-                                <button className="btn" onClick={() => setOpenModal(false)}>
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-            </div>
+          <button
+            className="btn btn-primary w-full mt-4"
+            onClick={() => setOpenModal(true)}
+            disabled={ticket.quantity <= 0 || timeLeft === "Departure time passed"}
+          >
+            Book Now
+          </button>
         </div>
-    );
+      </div>
+
+      {/* Relevant Section */}
+      <div className="max-w-5xl mx-auto mt-10">
+        <h3 className="text-xl font-bold mb-4">✨ You may also like</h3>
+        <div className="grid md:grid-cols-3 gap-4">
+          {[1,2,3].map(i => (
+            <div key={i} className="p-4 bg-base-100 rounded shadow">
+              <p className="font-semibold">Popular Route</p>
+              <p className="text-sm text-gray-500">Best selling ticket</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Modal */}
+      {openModal && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold mb-2">Confirm Booking</h3>
+            <input
+              type="number"
+              min="1"
+              max={ticket.quantity}
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              className="input input-bordered w-full"
+            />
+            <div className="modal-action">
+              <button className="btn btn-primary" onClick={handleBooking}>
+                Confirm
+              </button>
+              <button className="btn" onClick={() => setOpenModal(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default TicketDetails;

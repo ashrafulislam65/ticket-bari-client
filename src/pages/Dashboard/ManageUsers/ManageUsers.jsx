@@ -79,15 +79,11 @@ const ManageUsers = () => {
 
         if (!confirm.isConfirmed) return;
 
-        // Update user role using email
         await axiosSecure.patch(`/users/make-vendor/${request.email}`);
-
-        // Update request status
         await axiosSecure.patch(`/vendor-request/approve/${request._id}`);
 
         Swal.fire("Approved", "Vendor request approved", "success");
 
-        // Update users & pendingVendors locally
         queryClient.setQueryData(["allUsers"], (old = []) => [
             ...old,
             { ...request, role: "vendor" }
@@ -111,132 +107,131 @@ const ManageUsers = () => {
 
         Swal.fire("Rejected", "Vendor request rejected", "info");
 
-        // Remove request locally
         queryClient.setQueryData(["pendingVendors"], (old = []) =>
             old.filter(v => v._id !== id)
         );
     };
 
-    if (loadingUsers || loadingVendors) return <p className="text-center p-10">Loading...</p>;
+    if (loadingUsers || loadingVendors)
+        return <p className="text-center p-10">Loading...</p>;
 
     return (
         <div className="p-6 space-y-14">
-            <h1 className="text-3xl font-bold">Manage Users</h1>
+            <h1 className="text-3xl font-bold mb-6">Manage Users</h1>
 
             {/* ---------- USERS TABLE ---------- */}
-            <div>
-                <h2 className="text-2xl font-semibold mb-4">All Users</h2>
-                <div className="overflow-x-auto">
-                    <table className="table w-full border">
-                        <thead className="bg-gray-200">
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Actions</th>
+            <div className="overflow-x-auto border rounded-lg">
+                <h2 className="text-2xl font-semibold mb-4 p-4 bg-gray-100 rounded-t-lg">
+                    All Users ({users.length})
+                </h2>
+                <table className="table w-full min-w-[600px]">
+                    <thead className="bg-gray-200">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {users.map((u, i) => (
+                            <tr key={u._id}>
+                                <td>{i + 1}</td>
+                                <td>{u.name}</td>
+                                <td>{u.email}</td>
+                                <td>
+                                    <span
+                                        className={`px-3 py-1 rounded text-white ${
+                                            u.role === "admin"
+                                                ? "bg-purple-600"
+                                                : u.role === "vendor"
+                                                ? "bg-green-600"
+                                                : u.role === "fraud"
+                                                ? "bg-red-700"
+                                                : "bg-blue-600"
+                                        }`}
+                                    >
+                                        {u.role}
+                                    </span>
+                                </td>
+                                <td className="flex flex-wrap gap-2">
+                                    <button
+                                        onClick={() => handleRoleChange(u._id, "admin")}
+                                        className="btn btn-xs btn-warning"
+                                    >
+                                        Make Admin
+                                    </button>
+                                    <button
+                                        onClick={() => handleRoleChange(u._id, "vendor")}
+                                        className="btn btn-xs btn-success"
+                                    >
+                                        Make Vendor
+                                    </button>
+                                    <button
+                                        onClick={() => handleRoleChange(u._id, "user")}
+                                        className="btn btn-xs btn-info"
+                                    >
+                                        Make User
+                                    </button>
+                                    {u.role === "vendor" && (
+                                        <button
+                                            onClick={() => markAsFraud(u.email)}
+                                            className="btn btn-xs btn-error"
+                                        >
+                                            Mark Fraud
+                                        </button>
+                                    )}
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {users.map((u, i) => (
-                                <tr key={u._id}>
-                                    <td>{i + 1}</td>
-                                    <td>{u.name}</td>
-                                    <td>{u.email}</td>
-                                    <td>
-                                        <span
-                                            className={`px-3 py-1 rounded text-white ${
-                                                u.role === "admin"
-                                                    ? "bg-purple-600"
-                                                    : u.role === "vendor"
-                                                    ? "bg-green-600"
-                                                    : u.role === "fraud"
-                                                    ? "bg-red-700"
-                                                    : "bg-blue-600"
-                                            }`}
-                                        >
-                                            {u.role}
-                                        </span>
-                                    </td>
-                                    <td className="space-x-2">
-                                        <button
-                                            onClick={() => handleRoleChange(u._id, "admin")}
-                                            className="btn btn-xs btn-warning"
-                                        >
-                                            Make Admin
-                                        </button>
-                                        <button
-                                            onClick={() => handleRoleChange(u._id, "vendor")}
-                                            className="btn btn-xs btn-success"
-                                        >
-                                            Make Vendor
-                                        </button>
-                                        <button
-                                            onClick={() => handleRoleChange(u._id, "user")}
-                                            className="btn btn-xs btn-info"
-                                        >
-                                            Make User
-                                        </button>
-                                        {u.role === "vendor" && (
-                                            <button
-                                                onClick={() => markAsFraud(u.email)}
-                                                className="btn btn-xs btn-error"
-                                            >
-                                                Mark Fraud
-                                            </button>
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                        ))}
+                    </tbody>
+                </table>
             </div>
 
             {/* ---------- PENDING VENDORS ---------- */}
-            <div>
-                <h2 className="text-2xl font-semibold mb-4">Pending Vendor Requests</h2>
-                <div className="overflow-x-auto">
-                    <table className="table w-full border">
-                        <thead className="bg-gray-200">
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Business</th>
-                                <th>Actions</th>
+            <div className="overflow-x-auto border rounded-lg">
+                <h2 className="text-2xl font-semibold mb-4 p-4 bg-gray-100 rounded-t-lg">
+                    Pending Vendor Requests ({pendingVendors.length})
+                </h2>
+                <table className="table w-full min-w-[600px]">
+                    <thead className="bg-gray-200">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Business</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {pendingVendors.map((v, i) => (
+                            <tr key={v._id}>
+                                <td>{i + 1}</td>
+                                <td>{v.name}</td>
+                                <td>{v.email}</td>
+                                <td>{v.businessName}</td>
+                                <td className="flex flex-wrap gap-2">
+                                    <button
+                                        onClick={() => approveVendor(v)}
+                                        className="btn btn-xs btn-success"
+                                    >
+                                        Approve
+                                    </button>
+                                    <button
+                                        onClick={() => rejectVendor(v._id)}
+                                        className="btn btn-xs btn-error"
+                                    >
+                                        Reject
+                                    </button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {pendingVendors.map((v, i) => (
-                                <tr key={v._id}>
-                                    <td>{i + 1}</td>
-                                    <td>{v.name}</td>
-                                    <td>{v.email}</td>
-                                    <td>{v.businessName}</td>
-                                    <td className="space-x-2">
-                                        <button
-                                            onClick={() => approveVendor(v)}
-                                            className="btn btn-xs btn-success"
-                                        >
-                                            Approve
-                                        </button>
-                                        <button
-                                            onClick={() => rejectVendor(v._id)}
-                                            className="btn btn-xs btn-error"
-                                        >
-                                            Reject
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
 };
 
 export default ManageUsers;
- 

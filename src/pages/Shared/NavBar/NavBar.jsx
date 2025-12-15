@@ -28,8 +28,8 @@ const NavBar = () => {
   const links = (
     <>
       <li><NavLink to="/">Home</NavLink></li>
-      <li><NavLink to="/book-ticket">Book Ticket</NavLink></li>
-      <li><NavLink to="/vendor">Be a Vendor</NavLink></li>
+      
+      
       <li><NavLink to="/dashboard">Dashboard</NavLink></li>
       <li><NavLink to="/all-tickets">All Tickets</NavLink></li>
     </>
@@ -37,7 +37,7 @@ const NavBar = () => {
 
   return (
     <div>
-      <div className="navbar bg-base-100 shadow-sm md:px-20">
+      <div className="navbar bg-base-100  sticky top-0 z-50 shadow-sm md:px-30">
         
         {/* LEFT */}
         <div className="navbar-start">
@@ -67,13 +67,13 @@ const NavBar = () => {
         </div>
 
         {/* RIGHT */}
-        <div className="navbar-end gap-3">
+        <div className="navbar-end  md:gap-3">
 
           {/* Avatar Dropdown */}
           {user && (
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full">
+                <div className="w-6 md:w-10 rounded-full">
                   <img
                     alt="User Avatar"
                     src={user?.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
@@ -122,7 +122,7 @@ const NavBar = () => {
             </Link>
           )}
 
-          <Link className="btn btn-neutral mx-2" to="/vendor">
+          <Link className="btn btn-neutral md:mx-2" to="/vendor">
             Be a Vendor
           </Link>
         </div>

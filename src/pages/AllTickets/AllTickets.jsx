@@ -79,7 +79,7 @@ const AllTickets = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-200 p-6">
+    <div className="min-h-screen lg:px-30 bg-base-200 p-6">
       <h2 className="text-3xl font-bold mb-6">🎫 All Tickets</h2>
 
       {/* 🔎 SEARCH & FILTER */}
@@ -171,7 +171,7 @@ const AllTickets = () => {
                 </p>
 
                 <div className="card-actions justify-end mt-3">
-                  <Link to={`/ticket/${ticket._id}`} className="btn btn-primary">
+                  <Link to={`/ticket/${ticket._id}`} className="btn btn-neutral">
                     See Details
                   </Link>
                 </div>
@@ -196,7 +196,7 @@ const AllTickets = () => {
             <button
               key={i}
               className={`btn btn-sm ${
-                currentPage === i + 1 ? "btn-primary" : ""
+                currentPage === i + 1 ? "btn-neutral" : ""
               }`}
               onClick={() => setCurrentPage(i + 1)}
             >

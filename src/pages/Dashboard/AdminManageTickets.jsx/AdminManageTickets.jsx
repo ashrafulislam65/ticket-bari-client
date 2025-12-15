@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-
 const AdminManageTickets = () => {
     const [tickets, setTickets] = useState([]);
     const axiosSecure = useAxiosSecure();
@@ -31,42 +30,59 @@ const AdminManageTickets = () => {
     };
 
     return (
-        <table className="table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Vendor</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {tickets.map(ticket => (
-                    <tr key={ticket._id}>
-                        <td>{ticket.title}</td>
-                        <td>{ticket.vendorEmail}</td>
-                        <td>{ticket.verificationStatus}</td>
-                        <td>
-                            <button
-                                onClick={() => handleApprove(ticket._id)}
-                                disabled={ticket.verificationStatus !== "pending"}
-                                className="btn btn-xs btn-success mr-2"
-                            >
-                                Approve
-                            </button>
-
-                            <button
-                                onClick={() => handleReject(ticket._id)}
-                                disabled={ticket.verificationStatus !== "pending"}
-                                className="btn btn-xs btn-error"
-                            >
-                                Reject
-                            </button>
-                        </td>
+        <div className="overflow-x-auto border rounded-lg p-4">
+            <h2 className="text-2xl font-semibold mb-4">Manage Tickets ({tickets.length})</h2>
+            <table className="table w-full min-w-[600px]">
+                <thead className="bg-gray-200">
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Vendor</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {tickets.map((ticket, index) => (
+                        <tr key={ticket._id}>
+                            <td>{index + 1}</td>
+                            <td>{ticket.title}</td>
+                            <td>{ticket.vendorEmail}</td>
+                            <td>
+                                <span
+                                    className={`px-3 py-1 rounded text-white ${
+                                        ticket.verificationStatus === "approved"
+                                            ? "bg-green-600"
+                                            : ticket.verificationStatus === "rejected"
+                                            ? "bg-red-600"
+                                            : "bg-yellow-500"
+                                    }`}
+                                >
+                                    {ticket.verificationStatus}
+                                </span>
+                            </td>
+                            <td className="flex flex-wrap gap-2">
+                                <button
+                                    onClick={() => handleApprove(ticket._id)}
+                                    disabled={ticket.verificationStatus !== "pending"}
+                                    className="btn btn-xs btn-success"
+                                >
+                                    Approve
+                                </button>
+
+                                <button
+                                    onClick={() => handleReject(ticket._id)}
+                                    disabled={ticket.verificationStatus !== "pending"}
+                                    className="btn btn-xs btn-error"
+                                >
+                                    Reject
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 };
 

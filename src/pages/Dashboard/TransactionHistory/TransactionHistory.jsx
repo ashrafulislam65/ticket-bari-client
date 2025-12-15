@@ -29,8 +29,9 @@ const TransactionHistory = () => {
                 </thead>
 
                 <tbody>
-                    {payments.map((p) => (
+                    {payments.map((p,index) => (
                         <tr key={p._id}>
+                            <td>{index+1}</td>
                             <td>{p.transactionId}</td>
                             <td>{p.ticketTitle}</td>
                             <td>{p.amount} USD</td>

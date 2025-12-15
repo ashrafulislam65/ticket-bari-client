@@ -26,7 +26,61 @@ const DashboardLayout = () => {
                 </nav>
                 {/* Page content here */}
                 <Outlet></Outlet>
-                <div className="p-4">Page Content</div>
+                <div className="p-6 bg-base-100 rounded-xl shadow-md">
+                    <h2 className="text-2xl font-bold mb-6">
+                        📊 Dashboard Overview
+                    </h2>
+
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div className="bg-primary/10 p-4 rounded-lg">
+                            <p className="text-sm text-gray-500">Total Bookings</p>
+                            <h3 className="text-2xl font-bold">12</h3>
+                        </div>
+
+                        <div className="bg-secondary/10 p-4 rounded-lg">
+                            <p className="text-sm text-gray-500">Upcoming Trips</p>
+                            <h3 className="text-2xl font-bold">3</h3>
+                        </div>
+
+                        <div className="bg-accent/10 p-4 rounded-lg">
+                            <p className="text-sm text-gray-500">Total Spent</p>
+                            <h3 className="text-2xl font-bold">$420</h3>
+                        </div>
+                    </div>
+
+                    {/* Quick Actions */}
+                    <div className="mb-8">
+                        <h3 className="text-lg font-semibold mb-3">
+                            ⚡ Quick Actions
+                        </h3>
+
+                        <div className="flex flex-wrap gap-3">
+                            <button className="btn btn-primary btn-sm">
+                                🎟 Book New Ticket
+                            </button>
+                            <button className="btn btn-outline btn-sm">
+                                📄 My Bookings
+                            </button>
+                            <button className="btn btn-outline btn-sm">
+                                💳 Payment History
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Info Section */}
+                    <div className="bg-base-200 p-4 rounded-lg">
+                        <h4 className="font-semibold mb-2">
+                            ℹ️ Ticket Bari Tips
+                        </h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                            <li>• Always check departure time before booking</li>
+                            <li>• Payments are 100% secure</li>
+                            <li>• Contact support for any ticket issues</li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
 
             <div className="drawer-side is-drawer-close:overflow-visible">

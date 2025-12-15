@@ -57,8 +57,9 @@ const AdminAdvertiseTickets = () => {
           </tr>
         </thead>
         <tbody>
-          {tickets.map(ticket => (
+          {tickets.map((ticket,index) => (
             <tr key={ticket._id}>
+              <td>{index+1}</td>
               <td>{ticket.title}</td>
               <td>{ticket.from} → {ticket.to}</td>
               <td>${ticket.price}</td>

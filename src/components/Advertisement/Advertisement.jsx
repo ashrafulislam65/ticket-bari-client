@@ -66,7 +66,7 @@ const Advertisement = () => {
                 </p>
 
                 <div className="flex justify-between items-center mt-2">
-                  <p className="font-semibold text-primary">
+                  <p className="font-semibold text-neutral">
                     $ {ticket.price}
                   </p>
                   <p className="text-xs text-gray-400">

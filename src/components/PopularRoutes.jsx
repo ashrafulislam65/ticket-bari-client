@@ -9,7 +9,7 @@ const popularRoutes = [
 
 const PopularRoutes = () => {
   return (
-    <section className="my-20 bg-linear-to-r from-indigo-600 to-purple-600 py-16 rounded-3xl">
+    <section className="my-20 bg-linear-to-r lg:mx-30 from-indigo-600 to-purple-600 py-16 rounded-3xl">
       <div className="max-w-7xl mx-auto px-4 text-white">
         <h2 className="text-3xl font-bold text-center mb-4">
           Popular Routes

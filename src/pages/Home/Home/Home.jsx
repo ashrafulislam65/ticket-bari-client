@@ -4,6 +4,7 @@ import Advertisement from '../../../components/Advertisement/Advertisement';
 import LatestTickets from '../../../components/LatestTickets';
 import PopularRoutes from '../../../components/PopularRoutes';
 import WhyChooseUs from '../../../components/WhyChooseUs';
+import AboutUs from '../../../components/AboutUs';
 
 
 const Home = () => {
@@ -14,6 +15,7 @@ const Home = () => {
             <LatestTickets></LatestTickets>
             <PopularRoutes></PopularRoutes>
             <WhyChooseUs></WhyChooseUs>
+            <AboutUs></AboutUs>
             
         </div>
     );

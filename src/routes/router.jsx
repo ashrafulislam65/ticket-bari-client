@@ -7,7 +7,7 @@ import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
 import PrivateRoute from "./PrivateRoute";
 
-import BookTicket from "../pages/BookTicket/BookTicket";
+
 import AllTickets from "../pages/AllTickets/AllTickets";
 import TicketDetails from "../pages/TicketDetails/TicketDetails";
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -55,10 +55,7 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><TicketDetails></TicketDetails></PrivateRoute>
       },
 
-      {
-        path: 'book-ticket',
-        element: <PrivateRoute><BookTicket></BookTicket></PrivateRoute>
-      }
+      
     ]
   },
   {
