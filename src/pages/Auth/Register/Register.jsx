@@ -35,7 +35,13 @@ const Register = () => {
                         axiosSecure.post('/users', userInfo)
                             .then(res => {
                                 if (res.data.insertedId) {
-                                    console.log('new user info added to the database')
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "User Added",
+                                        text: "Your account info has been saved successfully!",
+                                        timer: 1500,
+                                        showConfirmButton: false,
+                                    });
                                 }
                             })
 
@@ -67,7 +73,19 @@ const Register = () => {
                 //update user profile here
             })
             .catch(error => {
-                console.log(error)
+                if (error.code === "auth/email-already-in-use") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Email Already In Use",
+                        text: "The email you entered is already registered. Please login instead.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Registration Failed",
+                        text: error?.message || "Something went wrong. Please try again.",
+                    });
+                }
             })
 
     }

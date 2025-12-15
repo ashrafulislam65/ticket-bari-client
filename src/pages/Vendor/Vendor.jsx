@@ -54,7 +54,7 @@ const Vendor = () => {
         <div className="max-w-4xl mx-auto p-8">
             <div className="bg-base-200 shadow-xl rounded-2xl p-10 border border-gray-300">
                 
-                <h1 className="text-4xl font-bold mb-8 text-center text-primary">
+                <h1 className="text-4xl font-bold mb-8 text-center text-neutral">
                     Vendor Registration Form
                 </h1>
 
@@ -137,7 +137,7 @@ const Vendor = () => {
                     {/* Submit Button */}
                     <button
                         type="submit"
-                        className="btn btn-primary w-full mt-8 text-lg py-3 rounded-xl"
+                        className="btn btn-neutral w-full mt-8 text-lg py-3 rounded-xl"
                     >
                         Submit Vendor Application
                     </button>

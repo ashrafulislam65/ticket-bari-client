@@ -108,7 +108,7 @@ const TicketDetails = () => {
           <p className="text-primary font-semibold mt-2">⏳ {timeLeft}</p>
 
           <button
-            className="btn btn-primary w-full mt-4"
+            className="btn btn-neutral w-full mt-4"
             onClick={() => setOpenModal(true)}
             disabled={ticket.quantity <= 0 || timeLeft === "Departure time passed"}
           >

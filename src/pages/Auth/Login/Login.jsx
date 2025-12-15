@@ -25,7 +25,11 @@ const Login = () => {
                 navigate(location?.state || '/')
             })
             .catch(error => {
-                console.log(error)
+                Swal.fire({
+                    icon: "error",
+                    title: "Login Failed",
+                    text: error?.message || "Invalid email or password",
+                });
             })
 
     }
