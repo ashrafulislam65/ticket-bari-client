@@ -1,8 +1,8 @@
 # 🎫 Online Ticket Booking Platform
 
-**Live Site:** [Your Live URL]  
-**Client Repository:** [Client Repo URL]  
-**Server Repository:** [Server Repo URL]  
+**Live Site:** https://ticket-bari-c7b9f.web.app/ 
+**Client Repository:** https://github.com/ashrafulislam65/ticket-bari-client  
+**Server Repository:** https://github.com/ashrafulislam65/ticket-bari-server  
 
 ---
 
