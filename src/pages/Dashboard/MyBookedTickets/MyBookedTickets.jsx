@@ -12,7 +12,7 @@ const MyBookedTickets = () => {
         queryKey: ['myBookedTickets', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/bookings?userEmail=${user?.email}`);
-            console.log('My Booked Tickets:', res.data);
+            // console.log('My Booked Tickets:', res.data);
             return res.data;
         }
     });

@@ -1,4 +1,7 @@
 import React from "react";
+import Image1 from '../assets/admin.jpg';
+import Image2 from '../assets/vendor.jpg';
+
 
 
 const AboutUs = () => {
@@ -40,7 +43,7 @@ const AboutUs = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           <div className="card bg-white shadow-lg rounded-lg p-4 hover:shadow-2xl transition-shadow duration-300">
             <img
-              src=''
+              src={Image1}
               alt="Team Member"
               className="w-32 h-32 rounded-full mx-auto object-cover"
             />
@@ -49,7 +52,7 @@ const AboutUs = () => {
           </div>
           <div className="card bg-white shadow-lg rounded-lg p-4 hover:shadow-2xl transition-shadow duration-300">
             <img
-              src=''
+              src={Image2}
               alt="Team Member"
               className="w-32 h-32 rounded-full mx-auto object-cover"
             />
@@ -58,7 +61,7 @@ const AboutUs = () => {
           </div>
           <div className="card bg-white shadow-lg rounded-lg p-4 hover:shadow-2xl transition-shadow duration-300">
             <img
-              src=''
+              src={Image2}
               alt="Team Member"
               className="w-32 h-32 rounded-full mx-auto object-cover"
             />

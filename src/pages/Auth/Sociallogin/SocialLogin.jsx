@@ -2,7 +2,8 @@ import React from 'react';
 import useAuth from '../../../hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import axios from 'axios';
+import Swal from 'sweetalert2';
+
 
 const SocialLogin = () => {
     const { signInGoogle } = useAuth();
@@ -13,23 +14,33 @@ const SocialLogin = () => {
     const handleGoogleSignIn = () => {
         signInGoogle()
             .then(result => {
-                console.log(result.user)
-                
+                // console.log(result.user)
+
                 const userInfo = {
                     name: result.user.displayName,
                     email: result.user.email,
                     photoURL: result.user.photoURL
                 }
                 axiosSecure.post('/users', userInfo)
-                    .then(res => {
-                        console.log('Google sign in user info added to the database', res.data);
+                    .then(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Login Successful 🎉',
+                            text: 'Welcome back to TicketBari!',
+                            timer: 1500,
+                            showConfirmButton: false,
+                        });
                         navigate(location.state || '/');
                     })
 
 
             })
-            .catch(error => {
-                console.log(error)
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Database Error',
+                    text: 'Failed to save Google user info',
+                });
             })
 
     }

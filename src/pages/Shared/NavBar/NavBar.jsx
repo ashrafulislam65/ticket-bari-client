@@ -36,8 +36,8 @@ const NavBar = () => {
   );
 
   return (
-    <div>
-      <div className="navbar bg-base-100  sticky top-0 z-50 shadow-sm md:px-30">
+    <div className="sticky top-0 z-50 shadow-sm">
+      <div className="navbar bg-base-100   md:px-30">
         
         {/* LEFT */}
         <div className="navbar-start">

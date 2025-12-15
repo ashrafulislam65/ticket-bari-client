@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const PaymentSuccess = () => {
     const [params] = useSearchParams();
@@ -10,10 +11,23 @@ const PaymentSuccess = () => {
     useEffect(() => {
         if (sessionId) {
             axiosSecure.post("/payment/success", { sessionId })
-                .then(res => {
-                    console.log("Payment updated:", res.data);
+                .then(() => {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Payment Successful!",
+                        text: "Your booking status has been updated.",
+                        timer: 2000,
+                        showConfirmButton: false,
+                    });
                 })
-                .catch(err => console.log(err));
+                .catch(() => {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Payment Failed",
+                        text: "Something went wrong while verifying payment.",
+                    });
+
+                });
         }
     }, [sessionId, axiosSecure]);  // 🔥 FIX: missing dependency
 

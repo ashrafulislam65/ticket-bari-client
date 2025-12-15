@@ -1,6 +1,7 @@
 import React from "react";
 import useCountdown from "../../hooks/useCountDown";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 
 const TicketCard = ({ ticket }) => {
     const {
@@ -44,7 +45,13 @@ const TicketCard = ({ ticket }) => {
     const isExpired = countdown === "Expired";
 
     const handlePayment = () => {
-        console.log("Paying for:", ticket);
+        Swal.fire({
+            icon: "info",
+            title: "Redirecting to Payment",
+            text: "You will be redirected to the secure payment page.",
+            timer: 1500,
+            showConfirmButton: false,
+        });
     };
 
     return (
@@ -72,12 +79,12 @@ const TicketCard = ({ ticket }) => {
                     <strong>Status:</strong>
                     <span
                         className={`ml-2 px-2 py-1 rounded text-white ${status === "pending"
-                                ? "bg-yellow-600"
-                                : status === "accepted"
-                                    ? "bg-green-600"
-                                    : status === "paid"
-                                        ? "bg-blue-600"
-                                        : "bg-red-600"
+                            ? "bg-yellow-600"
+                            : status === "accepted"
+                                ? "bg-green-600"
+                                : status === "paid"
+                                    ? "bg-blue-600"
+                                    : "bg-red-600"
                             }`}
                     >
                         {status}
